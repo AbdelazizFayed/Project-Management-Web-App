@@ -18,6 +18,6 @@ namespace Domain.Entities
         public ProjectStatus Status { get; set; }
        
 
-        public ICollection<Task> Tasks { get; set; }
+        public ICollection<TaskEntoty> Tasks { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    public class Task
+    public class TaskEntoty
     {
         public int Id { get; set; }
         public string TaskName { get; set; }

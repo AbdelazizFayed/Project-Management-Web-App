@@ -1,6 +1,7 @@
 ﻿using DataAccess.Context;
 using DataService.Interfaces;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,29 +19,54 @@ namespace DataService.Services
             _context = context;
         }
 
-        public Task<Project> CreateProject(Project project)
+        public async Task<Project> CreateProject(Project project)
         {
-            throw new NotImplementedException();
+            _context.Projects.Add(project);
+            await _context.SaveChangesAsync();
+            return project;
         }
 
-        public Task<int> DeleteProject(int id)
+        public async Task<int> DeleteProject(int id)
         {
-            throw new NotImplementedException();
+            var project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return 0;
+            }
+
+            _context.Projects.Remove(project);
+            return await _context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Project>> GetAllProjects()
+        public async Task<IEnumerable<Project>> GetAllProjects()
         {
-            throw new NotImplementedException();
+            return await _context.Projects.ToListAsync();
         }
 
-        public Task<Project> GetProjectById(int id)
+        public async Task<Project> GetProjectById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Projects.FindAsync(id);
         }
 
-        public Task<Project> UpdateProject(int id, Project updatedProject)
+        public async Task<Project> UpdateProject(int id, Project updatedProject)
         {
-            throw new NotImplementedException();
+            var project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return null;
+            }
+
+            project.ProjectName = updatedProject.ProjectName;
+            project.Description = updatedProject.Description;
+            project.StartDate = updatedProject.StartDate;
+            project.EndDate = updatedProject.EndDate;
+            project.Budget = updatedProject.Budget;
+            project.Owner = updatedProject.Owner;
+            project.Status = updatedProject.Status;
+
+            await _context.SaveChangesAsync();
+
+            return project;
         }
     }
 }

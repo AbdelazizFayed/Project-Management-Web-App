@@ -35,6 +35,6 @@ namespace DataAccess.Context
 
 
        public DbSet<Project>  Projects { get; set; }
-       public DbSet<TaskEntoty> Tasks { get; set; }
+       public DbSet<TaskEntity> Tasks { get; set; }
     }
 }

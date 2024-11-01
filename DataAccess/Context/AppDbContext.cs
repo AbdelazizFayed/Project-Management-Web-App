@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,33 +9,44 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Make sure you have registered the DbContext in the dependency injection container
-            // You can do this in the Startup.cs file in your application
-
-            // Add the following code to the ConfigureServices method:
-
-          
             modelBuilder.Entity<Project>(entity =>
             {
-                // Specify the precision and scale directly
                 entity.Property(e => e.Budget)
                       .HasPrecision(18, 4);
             });
 
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.Owner)
+                .WithMany()
+                .HasForeignKey(p => p.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TaskEntity>()
+                .HasOne(t => t.Project)
+                .WithMany(p => p.Tasks)
+                .HasForeignKey(t => t.ProjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TaskEntity>()
+                .HasOne(t => t.AssignedTo)
+                .WithMany()
+                .HasForeignKey(t => t.AssignedToId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(modelBuilder);
         }
 
-
-       public DbSet<Project>  Projects { get; set; }
-       public DbSet<TaskEntity> Tasks { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<TaskEntity> Tasks { get; set; }
     }
 }
+
+

@@ -12,7 +12,6 @@ namespace Domain.Entities
         public int Id { get; set; }
         public string TaskName { get; set; }
         public string Description { get; set; }
-        public string AssignedTo { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public TaskPriority Priority { get; set; }
@@ -20,5 +19,10 @@ namespace Domain.Entities
         public int ProjectId { get; set; }
         [ForeignKey("ProjectId")]
         public Project Project { get; set; }
+        public string AssignedToId { get; set; }
+
+        [ForeignKey("AssignedToId")]
+        public User AssignedTo { get; set; }
+
     }
 }

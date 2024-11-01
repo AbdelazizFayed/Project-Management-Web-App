@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Project_Management_Web_App.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectController : ControllerBase
@@ -34,6 +35,7 @@ namespace Project_Management_Web_App.Controllers
             return Ok(project);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<ActionResult<Project>> CreateProject(Project project)
         {
@@ -52,6 +54,7 @@ namespace Project_Management_Web_App.Controllers
             return Ok(project);
         }
 
+        [Authorize(Roles ="Manager")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<int>> DeleteProject(int id)
         {

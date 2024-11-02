@@ -12,6 +12,7 @@ This is a web application for managing projects and tasks. It provides features 
    - Update the connection string with your database credentials.
    - Run the database migrations: `dotnet ef database update`
 5. Start the application: `dotnet run`
+6.  It includes data seeding that will run and create some basic data when the application is started.
 
 ## Design Choices
 

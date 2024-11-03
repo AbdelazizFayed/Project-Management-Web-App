@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace DataService.Interfaces
 {
     public interface IProjectService
     {
-        Task<IEnumerable<Project>> GetAllProjects();
-        Task<Project> GetProjectById(int id);
-        Task<Project> CreateProject(Project project);
-        Task<Project> UpdateProject(int id, Project updatedProject);
+        Task<IEnumerable<IdNameDTO>> GetAllProjects();
+        Task<ProjectDTO> GetProjectById(int id); 
+        Task<Project> CreateProject(ProjectDTO projectDto); 
+        Task<ProjectDTO> UpdateProject(int id, ProjectDTO updatedProject); 
         Task<int> DeleteProject(int id);
     }
 }

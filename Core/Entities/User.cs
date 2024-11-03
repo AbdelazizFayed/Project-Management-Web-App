@@ -9,6 +9,7 @@ namespace Domain.Entities
 {
     public class User : IdentityUser
     {
+        public string? FullName { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public ICollection<TaskEntity> Tasks { get; set; }

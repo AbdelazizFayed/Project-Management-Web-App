@@ -51,7 +51,17 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireManagerRole", policy => policy.RequireRole("Manager"));
     options.AddPolicy("RequireEmployeeRole", policy => policy.RequireRole("Employee"));
 });
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000") 
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials(); 
+        });
+});
 //---------------------------------------
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -101,9 +111,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowSpecificOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+await SeedData.Initialize(app.Services);
 app.Run();

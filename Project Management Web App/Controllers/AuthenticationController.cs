@@ -78,7 +78,8 @@ public class AuthController : ControllerBase
             await _userManager.UpdateAsync(user);
 
             return Ok(new
-            {
+            { 
+                user= new{user.FullName,user.Email,},
                 Token = accessToken,
                 RefreshToken = refreshToken
             });

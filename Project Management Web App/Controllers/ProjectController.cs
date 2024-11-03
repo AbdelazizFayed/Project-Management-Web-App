@@ -1,4 +1,5 @@
 ﻿using DataService.Interfaces;
+using Domain.DTOs;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace Project_Management_Web_App.Controllers
             _projectService = projectService;
         }
 
-        [HttpGet]
+        [HttpGet("GetallProjects")]
         public async Task<ActionResult<IEnumerable<Project>>> GetAllProjects()
         {
             var projects = await _projectService.GetAllProjects();
@@ -37,14 +38,14 @@ namespace Project_Management_Web_App.Controllers
 
         [Authorize(Roles = "Manager")]
         [HttpPost]
-        public async Task<ActionResult<Project>> CreateProject(Project project)
+        public async Task<ActionResult<Project>> CreateProject(ProjectDTO project)
         {
             var createdProject = await _projectService.CreateProject(project);
             return CreatedAtAction(nameof(GetProjectById), new { id = createdProject.Id }, createdProject);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Project>> UpdateProject(int id, Project updatedProject)
+        public async Task<ActionResult<Project>> UpdateProject(int id, ProjectDTO updatedProject)
         {
             var project = await _projectService.UpdateProject(id, updatedProject);
             if (project == null)

@@ -1,13 +1,15 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Domain.DTOs
 {
-    public class Project
+    public class ProjectDTO
     {
         public int Id { get; set; }
         public string ProjectName { get; set; }
@@ -15,13 +17,9 @@ namespace Domain.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal Budget { get; set; }
-       
+        public string OwnerName { get; set; }
+        public string OwnerId { get; set; }
         public ProjectStatus Status { get; set; }
 
-        public string? OwnerId { get; set; }
-        [ForeignKey("OwnerId")]
-        public User Owner { get; set; }
-
-        public ICollection<TaskEntity> Tasks { get; set; }
     }
 }

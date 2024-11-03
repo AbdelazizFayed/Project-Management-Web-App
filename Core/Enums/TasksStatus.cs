@@ -8,6 +8,7 @@ namespace Domain.Enums
     public enum TasksStatus
     {
         NotStarted,
+        Pending,
         InProgress,
         Completed
     }

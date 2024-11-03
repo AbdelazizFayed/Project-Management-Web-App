@@ -66,22 +66,28 @@ namespace DataService.Services
 
         public async Task<ProjectDTO> GetProjectById(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
-            if (project == null)
+            var projectDto = await _context.Projects.Where(x => x.Id == id)
+                .Select(x => new ProjectDTO
+                {
+                    Id = x.Id,
+                    ProjectName = x.ProjectName,
+                    Description = x.Description,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    Budget = x.Budget,
+                    OwnerId = x.Owner.Id,
+                    OwnerName = x.Owner.UserName,
+                    Status = x.Status
+                }).FirstOrDefaultAsync();
+
+            if (projectDto == null)
             {
                 return null;
             }
 
             var projectDTO = new ProjectDTO
             {
-                Id = project.Id,
-                ProjectName = project.ProjectName,
-                Description = project.Description,
-                StartDate = project.StartDate,
-                EndDate = project.EndDate,
-                Budget = project.Budget,
-                OwnerName = project.Owner.UserName,
-                Status = project.Status
+               
             };
 
             return projectDTO;

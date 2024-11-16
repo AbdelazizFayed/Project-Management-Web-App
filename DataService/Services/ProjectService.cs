@@ -2,6 +2,7 @@
 using DataService.Interfaces;
 using Domain.DTOs;
 using Domain.Entities;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -63,34 +64,29 @@ namespace DataService.Services
         {
             return await _context.Projects.Select(x => new IdNameDTO { Id = x.Id, Name = x.ProjectName }).ToListAsync();
         }
-
-        public async Task<ProjectDTO> GetProjectById(int id)
+        public async Task<ProjectDetalisDTO> GetProjectDetalisById(int id)
         {
-            var projectDto = await _context.Projects.Where(x => x.Id == id)
-                .Select(x => new ProjectDTO
+
+            var project = await _context.Projects.Where(x => x.Id == id).Select(p => new ProjectDetalisDTO
+            {
+                Budget = p.Budget,
+                Description = p.Description,
+                Name = p.ProjectName,
+                StartDate = p.StartDate,
+                EndDate = p.EndDate,
+                Status = p.Status,
+                OwnerName = p.Owner.FullName,
+                Tasks = p.Tasks.Select(t => new TaskDTO
                 {
-                    Id = x.Id,
-                    ProjectName = x.ProjectName,
-                    Description = x.Description,
-                    StartDate = x.StartDate,
-                    EndDate = x.EndDate,
-                    Budget = x.Budget,
-                    OwnerId = x.Owner.Id,
-                    OwnerName = x.Owner.UserName,
-                    Status = x.Status
-                }).FirstOrDefaultAsync();
+                    Title = t.TaskName,
+                    Priority= t.Priority,
+                    Status= t.Status,
+                    AssignedToName=t.AssignedTo.FullName,
+                    Id = t.Id
+                }).ToList()
+            }).FirstOrDefaultAsync();
 
-            if (projectDto == null)
-            {
-                return null;
-            }
-
-            var projectDTO = new ProjectDTO
-            {
-               
-            };
-
-            return projectDTO;
+            return project;
         }
 
         public async Task<ProjectDTO> UpdateProject(int id, ProjectDTO updatedProject)

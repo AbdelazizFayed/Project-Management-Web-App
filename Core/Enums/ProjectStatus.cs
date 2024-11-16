@@ -9,6 +9,7 @@ namespace Domain.Enums
     public enum ProjectStatus
     {
         NotStarted,
+        Pending,
         InProgress,
         Completed
     }

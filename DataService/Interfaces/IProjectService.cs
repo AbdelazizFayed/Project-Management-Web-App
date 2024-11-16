@@ -11,9 +11,9 @@ namespace DataService.Interfaces
     public interface IProjectService
     {
         Task<IEnumerable<IdNameDTO>> GetAllProjects();
-        Task<ProjectDTO> GetProjectById(int id); 
         Task<Project> CreateProject(ProjectDTO projectDto); 
-        Task<ProjectDTO> UpdateProject(int id, ProjectDTO updatedProject); 
+        Task<ProjectDTO> UpdateProject(int id, ProjectDTO updatedProject);
+        Task<ProjectDetalisDTO> GetProjectDetalisById(int id);
         Task<int> DeleteProject(int id);
     }
 }

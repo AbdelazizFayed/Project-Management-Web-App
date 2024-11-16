@@ -28,7 +28,7 @@ namespace Project_Management_Web_App.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> GetProjectById(int id)
         {
-            var project = await _projectService.GetProjectById(id);
+                var project = await _projectService.GetProjectDetalisById(id);
             if (project == null)
             {
                 return NotFound();
